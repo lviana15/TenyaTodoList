@@ -18,6 +18,7 @@ function App() {
   function handleSubmit(event: FormEvent) {
     event?.preventDefault()
     setTasks([...tasks, task])
+    setTask('')
   }
 
   function deleteTask(taskToDelete: string) {
