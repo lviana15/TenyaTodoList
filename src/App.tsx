@@ -1,14 +1,22 @@
 import { ClipboardText, PlusCircle } from "phosphor-react";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState, useEffect, Key } from "react";
 import { Header } from "./components/Header";
 import { Task } from "./components/Task";
 
 
 function App() {
-  const [tasks, setTasks] = useState([
-    'Adicione uma tarefa'
-  ])
-  const [task, setTask] = useState('')
+  const [tasks, setTasks] = useState(() => {
+    const saved = localStorage.getItem("tasks")
+    const initialValue = JSON.parse(saved!);
+    return initialValue || ''
+})
+
+  const [task, setTask] = useState<string | null>('')
+
+  useEffect(() => {
+    // storing input name
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
   
   function handleTextChange(event: ChangeEvent<HTMLInputElement>) {
     setTask(event.target.value)
@@ -22,7 +30,7 @@ function App() {
   }
 
   function deleteTask(taskToDelete: string) {
-    const tasksWithoutDeletedOne = tasks.filter(task => {
+    const tasksWithoutDeletedOne = tasks.filter((task: string) => {
       return task !== taskToDelete;
    })
 
@@ -38,7 +46,7 @@ function App() {
             type='text' 
             className='flex-1 bg-gray-500 border border-gray-700 placeholder:text-gray-300 p-4 rounded-lg resize-none outline-none focus:border-purple-dark focus:text-gray-100' 
             placeholder='Adicione uma nova tarefa' 
-            value={task}
+            value={task!}
             onChange={handleTextChange}
           />
 
@@ -63,8 +71,7 @@ function App() {
               </span>
             </span>
           </div>
-        
-                   
+                     
         {tasks.length === 0 &&  
           <div className='flex flex-col items-center justify-center text-gray-300 p-12 border-t-2 border-gray-400 rounded-lg'>
             <ClipboardText className='text-gray-300' size={56}/>
@@ -73,7 +80,7 @@ function App() {
           </div>      
         } 
         
-        {tasks.map(task => {
+        {tasks.map((task: string) => {
           return (
             <Task 
               key={task}
