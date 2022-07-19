@@ -50,7 +50,11 @@ function App() {
             onChange={handleTextChange}
           />
 
-          <button className='w-24 flex  items-center justify-center gap-2 bg-blue-dark rounded-lg text-gray-100 text-sm font-bold' type='submit'>
+          <button 
+            className='w-24 flex  items-center justify-center gap-2 bg-blue-dark rounded-lg text-gray-100 text-sm font-bold disabled:bg-sky-900' 
+            type='submit'
+            disabled={!task}
+          >
             Criar
             <PlusCircle size={16} weight='bold' />
           </button>
@@ -61,15 +65,15 @@ function App() {
             <span className='flex gap-1 ml-2 text-blue text-sm font-bold'>
               Tarefas criadas
               <span className='bg-gray-400 text-gray-200 text-xs py-0.5 px-2 rounded-full'>
-                5
+                {tasks.length}
               </span>
             </span>
-            <span className='flex gap-1 mr-2 text-purple text-sm font-bold'>
+            {/* <span className='flex gap-1 mr-2 text-purple text-sm font-bold'>
               Concluidas
               <span className='bg-gray-400 text-gray-200 text-xs py-0.5 px-2 rounded-full'>
                 2 de 5
               </span>
-            </span>
+            </span> */}
           </div>
                      
         {tasks.length === 0 &&  
